@@ -21,7 +21,7 @@ def read_csv():
                      header=None,
                      names=['target', 'ids', 'date', 'flag', 'user', 'text'])
     df = df.drop(columns=['ids', 'date', 'flag', 'user'])
-    return df.to_numpy()
+    return df.head(100).to_numpy()
 
 
 def clean_up_words(words):
