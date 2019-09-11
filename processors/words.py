@@ -1,6 +1,7 @@
 import string
 import re
 import pandas as pd
+import numpy as np
 
 URL_REGEX = r"https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+"
 MENTION_REGEX = r"@\w{1,15}"
@@ -16,7 +17,7 @@ def process_data():
 
 
 def read_csv():
-    df = pd.read_csv('tweets_with_sentiment.zip',
+    df = pd.read_csv('data/tweets_with_sentiment.zip',
                      encoding='ISO-8859-1',
                      header=None,
                      names=['target', 'ids', 'date', 'flag', 'user', 'text'])
@@ -36,4 +37,5 @@ def clean_up_words(words):
 
 
 if __name__ == '__main__':
-    process_data()
+    data = process_data()
+    np.save('data/tweet_words_with_sentiment_matrix.npy', data)

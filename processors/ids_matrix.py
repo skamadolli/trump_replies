@@ -3,7 +3,7 @@ import pickle
 import numpy as np
 
 # Process tweet data
-target_with_sentences = words.process_data()
+target_with_sentences = np.load('data/tweet_words_with_sentiment_matrix.zip')['tweet_words_with_sentiment_matrix']
 num_of_tweets = len(target_with_sentences)
 max_tweet_words = 20
 
@@ -25,8 +25,6 @@ for tweet in target_with_sentences:
             except KeyError:
                 ids[tweet_counter][word_counter] = 10001
         word_counter += 1
-    # print(tweet[1])
-    # print(ids[tweet_counter])
     tweet_counter += 1
 
 np.save('data/tweet_words_ids_matrix.npy', ids)
