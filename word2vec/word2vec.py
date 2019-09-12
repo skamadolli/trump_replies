@@ -83,4 +83,4 @@ def closest_words_test(word, embeddings, word_to_ids):
     return dist, reversed_dict[index]
 
 d, w1 = closest_words_test('before', embedding_matrix, word_to_ids)
-print('before closest word ', w1)
+print('before - closest word ', w1)
