@@ -49,8 +49,8 @@ def generate_batch(data, index, batch_size, skip, window_size):
     for i in range(batch_size // skip):
         center = data[batchindex]
         context = [w for w in range(2*window_size+1) if w != window_size]
-        words_to_use = random.sample(context, skip)
-        for j, word in enumerate(words_to_use):
+        words = random.sample(context, skip)
+        for j, word in enumerate(words):
             batch[i*skip + j] = center
             labels[i*skip + j] = data[batchindex + word - window_size]
         batchindex += 1
