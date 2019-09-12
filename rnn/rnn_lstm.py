@@ -74,6 +74,15 @@ def train(word_indices, optimizer, input_data, labels, loss, accuracy, predictio
             save_path = saver.save(sess, "data/trained_model/pretrained_lstm.ckpt", global_step=i)
             print("saved to %s" % save_path)
 
+    dotest(word_indices, accuracy, sess)
+
+def dotest(word_indices, accuracy, sess):
+    it2 = 10
+    for i in range(it2):
+        nextBatch, nextBatchLabels = helper.get_test_batch(batch_size, max_tweet_words, word_indices)
+        test_acc = sess.run(accuracy,feed_dict={input_data:nextBatch,labels:nextBatchLabels})
+        print("Accuracy for this batch:", test_acc)
+
 
 if __name__ == '__main__':
     build_rnn_model()
