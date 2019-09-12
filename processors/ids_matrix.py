@@ -9,7 +9,7 @@ max_tweet_words = 20
 
 # Import Embedding
 embed = {}
-with open('../data/embeddings.pkl', 'rb') as handle:
+with open('data/embeddings.pkl', 'rb') as handle:
     # noinspection PyRedeclaration
     embed = pickle.load(handle)
 
@@ -23,7 +23,7 @@ for tweet in target_with_sentences:
             try:
                 ids[tweet_counter][word_counter] = embed[4][word]
             except KeyError:
-                ids[tweet_counter][word_counter] = 10001
+                ids[tweet_counter][word_counter] = 2
         word_counter += 1
     tweet_counter += 1
 
