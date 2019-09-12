@@ -51,7 +51,7 @@ optimizer = tf.train.AdamOptimizer(0.001).minimize(loss)
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
-    num_epochs = 1
+    num_epochs = 50
     for epoch in range(num_epochs):
         for iter, index in enumerate(np.arange(skip_window, len(traindata) - skip_window - batch_size/skip_size, batch_size/skip_size)):
             batches, labels = corpusload.generate_batch(traindata, index, batch_size, skip_size, skip_window)
