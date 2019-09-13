@@ -1,12 +1,11 @@
 import numpy as np
 import pickle
 import tensorflow as tf
-from rnn import helper
+import helper
 
 
 def load_files():
-    words_with_sentiments = np.load('data/tweet_words_with_sentiment_matrix.zip', allow_pickle=True)[
-        'tweet_words_with_sentiment_matrix']
+    words_with_sentiments = np.load('data/tweet_words_with_sentiment_matrix.npy', allow_pickle=True)
     word_indices = np.load('data/tweet_words_ids_matrix.zip')['tweet_words_ids_matrix']
     with open('data/embeddings.pkl', 'rb') as handle:
         embedding_matrices = pickle.load(handle)
@@ -48,10 +47,11 @@ def build_rnn_model():
     loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=prediction, labels=labels))
     optimizer = tf.compat.v1.train.AdamOptimizer().minimize(loss)
 
-    train(word_indices, optimizer, input_data, labels, loss, accuracy, prediction)
+    return words_with_sentiments, word_indices, embedding_matrices, labels, input_data, data, lstmCell, weight, bias, value, last, prediction, correct_pred, accuracy, loss, optimizer
 
 
-def train(word_indices, optimizer, input_data, labels, loss, accuracy, prediction):
+def train():
+    words_with_sentiments, word_indices, embedding_matrices, labels, input_data, data, lstmCell, weight, bias, value, last, prediction, correct_pred, accuracy, loss, optimizer = build_rnn_model()
     sess = tf.compat.v1.InteractiveSession()
     saver = tf.train.Saver()
     sess.run(tf.compat.v1.global_variables_initializer())
@@ -74,15 +74,6 @@ def train(word_indices, optimizer, input_data, labels, loss, accuracy, predictio
             save_path = saver.save(sess, "data/trained_model/pretrained_lstm.ckpt", global_step=i)
             print("saved to %s" % save_path)
 
-    dotest(word_indices, accuracy, sess)
-
-def dotest(word_indices, accuracy, sess):
-    it2 = 10
-    for i in range(it2):
-        nextBatch, nextBatchLabels = helper.get_test_batch(batch_size, max_tweet_words, word_indices)
-        test_acc = sess.run(accuracy,feed_dict={input_data:nextBatch,labels:nextBatchLabels})
-        print("Accuracy for this batch:", test_acc)
-
 
 if __name__ == '__main__':
-    build_rnn_model()
+    train()
